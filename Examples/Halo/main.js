@@ -23,7 +23,6 @@ function gameLoop()
    else 
    { endGame(); }
 
-   requestAnimationFrame(gameLoop);
 }
 
 requestAnimationFrame(gameLoop);
