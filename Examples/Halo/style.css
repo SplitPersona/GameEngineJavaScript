@@ -1,4 +1,27 @@
-canvas {
-    border: 1px solid black;
+#game-container {
+    background-image: url("./resources/background.png");
+    position: relative;
+    width: 1000px;
+    height: 600px;
+    margin: 0 auto;
+    border: 2px solid black;
+  }
+
+  #player {
+    background-image: url("./resources/player.png");
+    position: relative;
+    width: 50px;
+    height: 50px;
+    left: 0;
+    top: 70px;
+  }
+
+  #enemy {
+    background-image: url("./resources/enemy.png");
+    position: relative;
+    width: 50px;
+    height: 50px;
+    left: 400px;
+    top: 75px
   }
   
