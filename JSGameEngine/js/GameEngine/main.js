@@ -18,6 +18,16 @@ class Main{
         this.isRunning = true;
         requestAnimationFrame((timestamp) => this.gameLoop(timestamp));
     }
+
+    gameLoop(currentFrameTime){
+        this.deltaTime = (currentFrameTime - this.lastFrameTime)/1000
+        this.lastFrameTime = currentFrameTime;
+        this.update();
+        this.camera.update();
+        this.draw();
+        requestAnimationFrame((timestamp) => this.gameLoop(timestamp));
+    }
+
     update()
     {
         for(const gameObject of this.gameObjects){

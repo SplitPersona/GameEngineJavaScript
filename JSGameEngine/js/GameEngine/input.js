@@ -26,6 +26,20 @@ class Input extends Component{
         return this.keys[key]||false;
     }
 
-    
+    getGamepad(){
+        if(this.gamepadIndex !== null){
+            const gamepads = navigator.getGamepads();
+            return gamepads[this.gamepadIndex];
+        }
+        return null;
+    }
+    isGamepadButtonDown(){
+        const gamepad = this.getGamepad();
+        if(gamepad && gamepad.buttons[buttonIndex]){
+            return gamepad.buttons[buttonIndex].pressed;
+        }
+        return false;
+    }
 
 }
+export default Input;
