@@ -53,7 +53,7 @@ class Game{
         gameObject.game = this;
         this.gameObjects.push(gameObject);
     }
-    removeGameObject(){
+    removeGameObject(gameObject){
         this.gameObjectsToRemove.push(gameObject);
     }
     reset(){
