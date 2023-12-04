@@ -1,12 +1,12 @@
-import GameObject from "../GameEngine/gameobject";
-import Renderer from "../GameEngine/renderer";
-import Physics from "../GameEngine/physics";
-import Input from "../GameEngine/input";
+import GameObject from "../GameEngine/gameobject.js";
+import Renderer from "../GameEngine/renderer.js";
+import Physics from "../GameEngine/physics.js";
+import Input from "../GameEngine/input.js";
 import {Images} from "../GameEngine/resources.js"
-import Platform from "../platform.js"
-import Collectible from "../collectible.js"
-//import Enemy from "../Enemy.js"
-import ParticleSystem from "../GameEngine/particleSystem";
+import Platform from "../Game/platform.js"
+import Collectible from "../Game/collectible.js"
+import Enemy from "../Game/enemy.js"
+import ParticleSystem from "../GameEngine/particleSystem.js";
 
 class Player extends GameObject{
     constructor(x,y){
@@ -90,7 +90,7 @@ class Player extends GameObject{
         }
         super.update(deltaTime);
     }
-    handleGameInput(input){
+    handleGamepadInput(input){
         const gamepad = input.getGamepad();
         const physics = this.getComponent(Physics);
         if(gamepad){

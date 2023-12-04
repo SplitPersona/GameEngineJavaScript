@@ -1,3 +1,5 @@
+import Camera from './camera.js';
+
 class Game{
     constructor(canvasID){
         this.canvas = document.getElementById(canvasID);

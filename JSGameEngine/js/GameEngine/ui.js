@@ -1,3 +1,5 @@
+import Component from './component.js';
+
 class UI extends Component{
     constructor(text,x,y, font = "20px Arial", color = "white", 
     textAlign = "left", textBaseline = "top"){

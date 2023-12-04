@@ -1,6 +1,6 @@
-import GameObject from "gameobject.js"
-import Renderer from "renderer.js"
-import Physics from "physics.js"
+import GameObject from "../GameEngine/gameobject.js"
+import Renderer from "../GameEngine/renderer.js"
+import Physics from "../GameEngine/physics.js"
 
 class Collectible extends GameObject{
     constructor(x,y,width,height,color = "gold"){
