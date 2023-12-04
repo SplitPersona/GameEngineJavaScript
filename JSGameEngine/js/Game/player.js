@@ -117,7 +117,7 @@ class Player extends GameObject{
         }
     }
         startJump(){
-            if(!this.isOnPlatform){
+            if(this.isOnPlatform){
                 this.isJumping = true; 
                 this.jumpTimer = this.jumpTime; 
                 this.getComponent(Physics).velocity.y = -this.jumpForce; 
