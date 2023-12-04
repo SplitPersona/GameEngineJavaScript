@@ -1,6 +1,6 @@
 class Component{
     constructor(){
-        this.GameObject = null
+        this.gameObject = null;
     }
     update(deltaTime){
 

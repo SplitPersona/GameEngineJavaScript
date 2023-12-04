@@ -1,38 +1,38 @@
-import Component from "./component";
-import Renderer from "./renderer";
+import Component from "./component.js"
+import Renderer from "./renderer.js"
 
-class physics extends Component
-{
-    constructor(velocity = {x:0,y:0}, acceleration = {x:0,y:0}, gravity = {x:0,y:300})
+class Physics extends Component {
+    constructor(velocity = {x:0,y:0}, acceleration = {x:0,y:0},gravity ={x:0,y:300})
     {
         super();
-        this.velocity = velocity;
+        this.velocity = velocity; 
         this.acceleration = acceleration;
-        this.gravity = gravity;
+        this.gravity = gravity; 
     }
-
+    
     update(deltaTime){
-        this.velocity.x += this.acceleration.x * deltaTime;
-        this.velocity.y += (this.acceleration.y + this.gravity) * deltaTime;
-        this.GameObject.x += this.velocity.x * deltaTime;
-        this.GameObject.y += this.velocity.y * deltaTime;
+        this.velocity.x += this.acceleration.x * deltaTime; 
+        this.velocity.y += (this.acceleration.y+ this.gravity.y)*deltaTime; 
+        this.gameObject.x += this.velocity.x * deltaTime; 
+        this.gameObject.y += this.velocity.y * deltaTime; 
     }
 
-    isColliding(OtherPhysics){
+    isColliding(otherPhysics){
         const [left, right, top, bottom] = this.getBoundingBox();
-        const [otherLeft, otherRight, otherTop, otherBottom] = OtherPhysics.getBoundingBox;
+        const [otherLeft, otherRight, otherTop, otherBottom] = otherPhysics.getBoundingBox();
+        
+        return left< otherRight && right>otherLeft && top<otherBottom&& bottom>otherTop;
 
-        return left< otherRight && right>otherLeft && top<otherBottom && bottom<otherTop;
-       
     }
 
     getBoundingBox(){
-        const renderer = this.GameObject.getComponent(Renderer);
-        const left = this.GameObject.x;
-        const right = this.GameObject.x + renderer.width;
-        const top = this.GameObject.y;
-        const bottom = this.GameObject.y + renderer.height;
+        const renderer = this.gameObject.getComponent(Renderer);
+        const left = this.gameObject.x;
+        const right = this.gameObject.x + renderer.width;
+        const top = this.gameObject.y;
+        const bottom = this.gameObject.y + renderer.height; 
+
+        return[left, right, top, bottom];
     }
 }
-
-export default physics;
+    export default Physics; 
