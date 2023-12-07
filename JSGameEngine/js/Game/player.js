@@ -146,7 +146,7 @@ class Player extends GameObject{
         }
 
         emitCollectParticles(){
-            const particleSystem = new ParticleSystem(this.x, this.y, "yellow", 20,1,.5);
+            const particleSystem = new ParticleSystem(this.x, this.y, 'yellow', 20, 1, 0.5);
             this.game.addGameObject(particleSystem);
         }
         resetPlayerState(){

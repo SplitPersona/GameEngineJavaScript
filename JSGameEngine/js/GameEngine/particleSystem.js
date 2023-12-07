@@ -23,16 +23,15 @@ class ParticleSystem extends GameObject{
         super.update(deltaTime);
     }
     emitParticles(deltaTime){
-        const particlesToEmit = Math.ceil((this.count/this.emitDuration)*deltaTime);
+        const particlesToEmit = Math.ceil((this.count / this.emitDuration) * deltaTime);
         
         for(let i = 0; i<particlesToEmit&& this.particlesEmittted < this.count; i++){
-            const lifeDuration = this.lifeDuration + Math.random() -.5;
+            const lifeDuration = this.lifeDuration + Math.random() - 0.5;
             const particle = new Particle(this.x, this.y, Math.random()*5, Math.random()*5, this.color, lifeDuration)
-            particle.addComponent(new Physics({x: (Math.random()-.5)*50,y: (Math.random()-.5)*50}, {x:0,y:0}));
+            particle.addComponent(new Physics({x: (Math.random()- 0.5)*50,y: (Math.random()-0.5)*50}, {x:0,y:0}));
             this.game.addGameObject(particle);
             this.particlesEmitted++;
         }
     }
-
 }
 export default ParticleSystem; 
