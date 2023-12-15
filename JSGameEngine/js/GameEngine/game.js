@@ -1,4 +1,5 @@
 import Camera from './camera.js';
+import {AudioFiles} from './resources.js';
 
 class Game{
     constructor(canvasID){

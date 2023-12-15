@@ -7,6 +7,8 @@ import Platform from "../Game/platform.js"
 import Collectible from "../Game/collectible.js"
 import Enemy from "../Game/enemy.js"
 import ParticleSystem from "../GameEngine/particleSystem.js";
+import AudioManager from '../GameEngine/audioManager.js';
+import animatorCompiler from '../GameEngine/animatorCompiler.js';
 
 class Player extends GameObject{
     constructor(x,y){
@@ -16,18 +18,22 @@ class Player extends GameObject{
         this.addComponent(new Physics({x:0,y:0}, {x:0,y:0}));
         this.addComponent(new Input());
         
-        //check if this is still required
-        this.direction =1;
+        this.addComponent(new animatorCompiler());
+        this.getComponent(animatorCompiler).addAnimation([Images.player]);
+        this.getComponent(animatorCompiler).addAnimation([Images.player3, Images.player2]);  
+        this.isJumpKeyDown = false; // Add this line
+        this.audioManager = new AudioManager();
+        this.direction = 1;
         this.lives = 3;
         this.score = 0;
-        this.isOnPlatform = false; 
-        this.isJumping = false; 
-        this.jumpForce = 400; 
+        this.isOnPlatform = false;
+        this.isJumping = false;
+        this.jumpForce = 250;
         this.jumpTime = 0.3;
         this.jumpTimer = 0;
-        this.isInvulnerable = false; 
-        this.isGamepadMovement = false; 
-        this.isGamepadJump = false; 
+        this.isInvulnerable = false;
+        this.isGamepadMovement = false;
+        this.isGamepadJump = false;
     }
 
     update(deltaTime){
@@ -88,14 +94,27 @@ class Player extends GameObject{
             console.log("You Win!!");
             location.reload();
         }
+
+        let anim = this.getComponent(animatorCompiler);
+        if(physics.velocity.x == 0)
+        {
+            anim.currentAnimation = 0;
+        } else {
+            anim.currentAnimation = 1;
+            anim.speed = 0.5;
+        }
+
+
         super.update(deltaTime);
     }
+
     handleGamepadInput(input){
         const gamepad = input.getGamepad();
         const physics = this.getComponent(Physics);
         if(gamepad){
             this.isGamepadMovement = false; 
             this.isGamepadJump = false; 
+
             const horizontalAxis = gamepad.axes[0];
             if (horizontalAxis>0.1){
                 this.isGamepadMovement = true; 
@@ -122,6 +141,8 @@ class Player extends GameObject{
                 this.jumpTimer = this.jumpTime; 
                 this.getComponent(Physics).velocity.y = -this.jumpForce; 
                 this.isOnPlatform = false; 
+                
+                this.audioManager.jumpSound();
             }
         }
         updateJump(deltaTime){
@@ -130,15 +151,17 @@ class Player extends GameObject{
                 this.isJumping = false; 
             }
         }
-        collidedWithEnemy(){
+        collidedWithEnemy()
+        {
             if(!this.isInvulnerable){
                 this.lives--;
                 this.isInvulnerable = true; 
                 setTimeout(() =>{
                     this.isInvulnerable = false;
                 }, 2000);
-                }
             }
+        }
+
         collect(collectible){
         this.score += collectible.value; 
         console.log(`Score: ${this.score}`);
