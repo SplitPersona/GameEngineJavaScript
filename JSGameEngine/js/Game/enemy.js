@@ -9,12 +9,14 @@ import Platform from "./platform.js";
 class Enemy extends GameObject {
     constructor(x, y) {
       super(x, y);
-      this.addComponent(new Renderer('green', 50, 50, Images.enemy));
-      this.addComponent(new Physics({ x: 50, y: 0 }, { x: 0, y: 0 }));
+      this.addComponent(new Renderer('green', 300, 100, Images.enemy));
+      this.addComponent(new Physics({ x: 100, y: 0 }, { x: 0, y: 0 }));
       this.movementDistance = 0;
       this.movementLimit = 100;
       this.movingRight = true;
     }
+
+    
     update(deltaTime) {
       const physics = this.getComponent(Physics);
 
@@ -24,7 +26,8 @@ class Enemy extends GameObject {
           this.movementDistance += Math.abs(physics.velocity.x) * deltaTime;
           this.getComponent(Renderer).gameObject.direction = 1;
         } else {
-          this.movingRight = false;
+            this.movingRight = true;
+            this.movementLimit = Infinity;
           this.movementDistance = 0;
         }
 

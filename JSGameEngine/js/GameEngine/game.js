@@ -1,5 +1,6 @@
 import Camera from './camera.js';
 import {AudioFiles} from './resources.js';
+import AudioManager from './audioManager.js';
 
 class Game{
     constructor(canvasID){
@@ -10,6 +11,7 @@ class Game{
         this.lastFrameTime = 0; 
         this.deltaTime = 0; 
         this.resizeCanvas();
+        this.audioManager = new AudioManager();
         window.addEventListener("resize", () => this.resizeCanvas());
         this.camera = new Camera(null, this.canvas.width, this.canvas.height);
     }
@@ -20,6 +22,7 @@ class Game{
     start(){
         this.isRunning = true; 
         requestAnimationFrame((timestamp) => this.gameLoop(timestamp));
+        this.audioManager.playBackgroundSong();
     }
     gameLoop(currentFrameTime){
         this.deltaTime = (currentFrameTime - this.lastFrameTime)/1000

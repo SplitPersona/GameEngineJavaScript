@@ -8,7 +8,9 @@ class Platform extends GameObject{
         this.addComponent(new Renderer(color, width, height));
         this.addComponent(new Physics({x:0,y:0}, {x:0, y:0}, {x:0, y:0}));
 
-        this.tag = "platform"
+        this.tag = "platform";
+
+        // Render an infinite platform
     }
 }
 export default Platform;
