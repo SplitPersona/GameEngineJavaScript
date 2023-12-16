@@ -1,4 +1,3 @@
-
 import Obstacle from '../Game/obstacle.js';
 import Player from '../Game/player.js';
 

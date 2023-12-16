@@ -10,7 +10,6 @@ import ParticleSystem from "../GameEngine/particleSystem.js";
 import AudioManager from '../GameEngine/audioManager.js';
 import animatorCompiler from '../GameEngine/animatorCompiler.js';
 import Obstacle from '../Game/obstacle.js';
-import ObstacleSpawner from "../GameEngine/obstacleSpawner.js";
 
 class Player extends GameObject{
     constructor(x,y){
@@ -26,7 +25,7 @@ class Player extends GameObject{
         this.isJumpKeyDown = false;
         this.audioManager = new AudioManager();
         this.direction = 1;
-        this.lives = 3;
+        this.lives = 1;
         this.score = 0;
         this.isOnPlatform = false;
         this.isJumping = false;
@@ -36,6 +35,7 @@ class Player extends GameObject{
         this.isInvulnerable = false;
         this.isGamepadMovement = false;
         this.isGamepadJump = false;
+        this.canRunRight = true;
     }
 
     update(deltaTime){
@@ -110,8 +110,20 @@ class Player extends GameObject{
             anim.speed = 1;
         }
 
-        if (this.game.obstacleSpawner) {
-            this.game.obstacleSpawner.update(deltaTime);
+        const obstacles = this.game.gameObjects.filter((obj) => obj instanceof Obstacle);
+
+        for (const obstacle of obstacles) {
+            if (physics.isColliding(obstacle.getComponent(Physics))) {
+                this.collidedWithObstacle();
+            }
+            else {
+                this.canRunRight = true;
+            }
+
+        }
+
+        if (!this.canRunRight && this.getComponent(Physics).velocity.x > 0) {
+            this.getComponent(Physics).velocity.x = 0;
         }
 
         super.update(deltaTime);
@@ -160,6 +172,11 @@ class Player extends GameObject{
                 this.isJumping = false; 
             }
         }
+
+        collidedWithObstacle() {
+            this.canRunRight = false;
+        }
+
         collidedWithEnemy()
         {
             if(!this.isInvulnerable){
@@ -202,7 +219,7 @@ class Player extends GameObject{
             this.jumpTimer = 0;
         }
         resetGame(){
-            this.lives = 3; 
+            this.lives = 1; 
             this.score =0;
             this.resetPlayerState();
         }

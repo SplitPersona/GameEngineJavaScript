@@ -15,8 +15,8 @@ canvas{
 }
 
 
-/* 
-Scrolling background in progress
+
+/*Scrolling background in progress
 
 body {
     margin: 0;
@@ -34,43 +34,31 @@ body {
     width: 100%;
     height: 100%;
     animation: scrollBackground 60s linear infinite;
+    background-image: url('../resources/images/background/bg5.png');
+    background-position: center;
+    background-attachment: fixed;
+    background-size: cover;
 }
 
 @keyframes scrollBackground {
     0% {
         background-image: url('../resources/images/background/bg5.png');
-        background-position: centre;
-        background-attachment: fixed;
-        background-size: cover;
     }
     25% {
         background-image: url('../resources/images/background/bg4.png');
-        background-position: centre;
-        background-attachment: fixed;
-        background-size: cover;
     }
     50% {
         background-image: url('../resources/images/background/bg3.png');
-        background-position: centre;
-        background-attachment: fixed;
-        background-size: cover;
     }
     75% {
         background-image: url('../resources/images/background/bg2.png');
-        background-position: centre;
-        background-attachment: fixed;
-        background-size: cover;
     }
     100% {
         background-image: url('../resources/images/background/bg1.png');
-        background-position: centre;
-        background-attachment: fixed;
-        background-size: cover;
     }
 }
 
 canvas {
     border: 1px solid black;
 }
-*/
   
