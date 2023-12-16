@@ -9,7 +9,7 @@ class animatorCompiler extends Component {
         super();
         this.animations = []; 
         this.frame = 0;
-        this.animationspeed = 1;
+        this.animationspeed = 3;
         this.currentAnimation = 0;
     }
     

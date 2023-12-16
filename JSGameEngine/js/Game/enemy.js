@@ -5,12 +5,18 @@ import {Images} from "../GameEngine/resources.js"
 
 import Player from "./player.js";
 import Platform from "./platform.js";
+import animatorCompiler from '../GameEngine/animatorCompiler.js';
 
 class Enemy extends GameObject {
     constructor(x, y) {
       super(x, y);
       this.addComponent(new Renderer('green', 300, 100, Images.enemy));
       this.addComponent(new Physics({ x: 100, y: 0 }, { x: 0, y: 0 }));
+
+      this.addComponent(new animatorCompiler());
+      this.getComponent(animatorCompiler).addAnimation([Images.enemy1]);
+      this.getComponent(animatorCompiler).addAnimation([Images.enemy2, Images.enemy1]); 
+
       this.movementDistance = 0;
       //this.movementLimit = 100;
       this.movingRight = true;
@@ -64,7 +70,11 @@ class Enemy extends GameObject {
           this.isOnPlatform = true;
         }
       }
+      let anim = this.getComponent(animatorCompiler);
+      anim.currentAnimation = 1;
+      anim.speed = 1;
+
       super.update(deltaTime);
     }
   }
-  export default Enemy;
+      export default Enemy;

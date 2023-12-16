@@ -13,14 +13,15 @@ class AudioManager {
             });
         });
     }
+    
+        jumpSound() {
+            this.jump.play();
+        }
 
-    jumpSound() {
-        this.jump.play();
+        playBackgroundSong() {
+            this.backgroundSong.volume = 0.5; // Adjust the volume here (0.0 to 1.0)
+            this.backgroundSong.play();
+        }
     }
 
-    playBackgroundSong() {
-        this.backgroundSong.play();
-    }
-}
-
-export default AudioManager;
+    export default AudioManager;

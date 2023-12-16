@@ -105,7 +105,7 @@ class Player extends GameObject{
             anim.currentAnimation = 0;
         } else {
             anim.currentAnimation = 1;
-            anim.speed = 0.5;
+            anim.speed = 1;
         }
 
         super.update(deltaTime);
