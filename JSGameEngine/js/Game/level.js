@@ -17,9 +17,12 @@ class Level extends Game {
 
     this.camera.target = player;
 
-    const platformWidth = 10000;
+    //const platformWidth = Infinity; // Set platform width to infinity
+
+    const platformWidth = 900000;
 
     const movingPlatform = new Platform(0, this.canvas.height - 50, platformWidth, 50);
+    //movingPlatform.getComponent(Renderer).infiniteLength = true; // Set infiniteLength to true
     this.addGameObject(movingPlatform);
 
     this.addGameObject(new Enemy(-50, this.canvas.height - 90));
@@ -30,28 +33,47 @@ class Level extends Game {
     //this.addGameObject(new Collectible(250, this.canvas.height - 100, 20, 20));
     //this.addGameObject(new Collectible(450, this.canvas.height - 100, 20, 20));
     //this.addGameObject(new Collectible(650, this.canvas.height - 100, 20, 20));
-
+    
     this.spawnObstacle();
     setInterval(() => {
       this.deleteObstacle();
       this.spawnObstacle();
-    }, 120000);
+    }, 2500); // 2.5 seconds
+  }
+  
+  spawnObstacle() {
+    const obstacleWidth = 100;
+    const obstacleHeight = 50;
+    
+    // Get the player's position
+    const player = this.gameObjects.find(obj => obj instanceof Player);
+    const playerX = player.x;
+    const playerY = player.y;
+    
+    // Calculate the position for the new obstacle
+    const obstacleX = playerX + obstacleWidth + 100;
+    const obstacleY = this.canvas.height - 70 - obstacleHeight / 2;
+    
+    const obstacle = new Obstacle(obstacleX, obstacleY, obstacleWidth, obstacleHeight);
+    this.addGameObject(obstacle);
   }
 
-  spawnObstacle() {
+  /*spawnObstacle() {
     const obstacleWidth = 100;
     const obstacleHeight = 50;
     const obstacleX = this.canvas.width + obstacleWidth;
     const obstacleY = this.canvas.height - 50 - obstacleHeight / 2;
     const obstacle = new Obstacle(obstacleX, obstacleY, obstacleWidth, obstacleHeight);
     this.addGameObject(obstacle);
-  }
+  }*/
 
   deleteObstacle() {
     const obstacles = this.gameObjects.filter(obj => obj instanceof Obstacle);
     if (obstacles.length > 0) {
-      const obstacle = obstacles[0];
-      this.removeGameObject(obstacle);
+      const obstacle = obstacles[obstacles.length - 1];
+      if (obstacle.x + obstacle.width < 0) {
+        this.removeGameObject(obstacle);
+      }
     }
   }
 }

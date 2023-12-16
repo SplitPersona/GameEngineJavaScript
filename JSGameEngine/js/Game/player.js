@@ -36,6 +36,9 @@ class Player extends GameObject{
         this.isGamepadMovement = false;
         this.isGamepadJump = false;
         this.canRunRight = true;
+
+        this.speedIncreaseRate = 6; // Speed increase rate per second
+        this.speedIncreaseTimer = 0; // Timer to track the duration of holding the button
     }
 
     update(deltaTime){
@@ -43,15 +46,18 @@ class Player extends GameObject{
         const input = this.getComponent(Input);
 
         this.handleGamepadInput(input);
-
+        
         if(!this.isGamepadMovement && input.isKeyDown("ArrowRight")){
-            physics.velocity.x = 155;
+            this.speedIncreaseTimer += deltaTime; // Increase the timer
+            physics.velocity.x = 155 + this.speedIncreaseRate * this.speedIncreaseTimer; // Increase velocity based on time
             this.direction = -1;
         }else if(!this.isGamepadMovement && input.isKeyDown("ArrowLeft")){
-            physics.velocity.x = -155;
+            this.speedIncreaseTimer += deltaTime; // Increase the timer
+            physics.velocity.x = -155 - this.speedIncreaseRate * this.speedIncreaseTimer; // Increase velocity based on time
             this.direction = 1; 
         }else if(!this.isGamepadMovement){
             physics.velocity.x = 0;
+            this.speedIncreaseTimer = 0; // Reset the timer when the button is released
         }
 
         if(!this.isGamepadJump && input.isKeyDown("ArrowUp")&& this.isOnPlatform){
@@ -119,7 +125,6 @@ class Player extends GameObject{
             else {
                 this.canRunRight = true;
             }
-
         }
 
         if (!this.canRunRight && this.getComponent(Physics).velocity.x > 0) {
@@ -137,14 +142,14 @@ class Player extends GameObject{
             this.isGamepadJump = false; 
 
             const horizontalAxis = gamepad.axes[0];
-            if (horizontalAxis>0.1){
+            if (horizontalAxis > 0.1){
                 this.isGamepadMovement = true; 
-                physics.velocity.x = 100;
+                physics.velocity.x += (100 + 100) * input.deltaTime; // Increase velocity based on time
                 this.direction = -1;
             }
-            else if(horizontalAxis<-0.1){
+            else if(horizontalAxis < -0.1){
                 this.isGamepadMovement = true; 
-                physics.velocity.x = -100; 
+                physics.velocity.x -= (100 - 10) * input.deltaTime; // Increase velocity based on time
                 this.direction = 1; 
             }
             else{
@@ -175,6 +180,8 @@ class Player extends GameObject{
 
         collidedWithObstacle() {
             this.canRunRight = false;
+            //physics.velocity.x = 0;
+            this.speedIncreaseTimer = 0; // Reset the timer when the button is released
         }
 
         collidedWithEnemy()

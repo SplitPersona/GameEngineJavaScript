@@ -20,6 +20,9 @@ class Enemy extends GameObject {
       this.movementDistance = 0;
       //this.movementLimit = 100;
       this.movingRight = true;
+
+      this.speedIncreaseRate = 5; // Speed increase rate per second
+      this.speedIncreaseTimer = 0; // Timer to track the duration of holding the button
     }
 
     
@@ -28,7 +31,8 @@ class Enemy extends GameObject {
 
       if (this.movingRight) {
         if (this.movementDistance < this.movementLimit) {
-          physics.velocity.x = 150;
+          this.speedIncreaseTimer += deltaTime; // Increase the timer
+          physics.velocity.x = 150 + this.speedIncreaseRate * this.speedIncreaseTimer; // Increase velocity based on time
           this.movementDistance += Math.abs(physics.velocity.x) * deltaTime;
           this.getComponent(Renderer).gameObject.direction = 1;
         } else {
