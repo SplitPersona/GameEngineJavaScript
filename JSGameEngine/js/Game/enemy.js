@@ -12,7 +12,7 @@ class Enemy extends GameObject {
       this.addComponent(new Renderer('green', 300, 100, Images.enemy));
       this.addComponent(new Physics({ x: 100, y: 0 }, { x: 0, y: 0 }));
       this.movementDistance = 0;
-      this.movementLimit = 100;
+      //this.movementLimit = 100;
       this.movingRight = true;
     }
 
@@ -22,7 +22,7 @@ class Enemy extends GameObject {
 
       if (this.movingRight) {
         if (this.movementDistance < this.movementLimit) {
-          physics.velocity.x = 50;
+          physics.velocity.x = 150;
           this.movementDistance += Math.abs(physics.velocity.x) * deltaTime;
           this.getComponent(Renderer).gameObject.direction = 1;
         } else {

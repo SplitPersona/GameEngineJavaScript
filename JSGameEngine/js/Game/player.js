@@ -43,10 +43,10 @@ class Player extends GameObject{
         this.handleGamepadInput(input);
 
         if(!this.isGamepadMovement && input.isKeyDown("ArrowRight")){
-            physics.velocity.x = 100;
+            physics.velocity.x = 155;
             this.direction = -1;
         }else if(!this.isGamepadMovement && input.isKeyDown("ArrowLeft")){
-            physics.velocity.x = -100;
+            physics.velocity.x = -155;
             this.direction = 1; 
         }else if(!this.isGamepadMovement){
             physics.velocity.x = 0;
@@ -90,9 +90,13 @@ class Player extends GameObject{
         if(this.lives<=0){
             location.reload();
         }
-        if(this.score >= 3){
+        /*if(this.score >= 3){
             console.log("You Win!!");
             location.reload();
+        }*/
+
+        if(this.score === 0){
+            this.increaseScore();
         }
 
         let anim = this.getComponent(animatorCompiler);
@@ -103,7 +107,6 @@ class Player extends GameObject{
             anim.currentAnimation = 1;
             anim.speed = 0.5;
         }
-
 
         super.update(deltaTime);
     }
@@ -162,11 +165,21 @@ class Player extends GameObject{
             }
         }
 
-        collect(collectible){
+        increaseScore() 
+        {
+            if (!this.scoreInterval) {  // Check if the interval is already set
+                this.scoreInterval = setInterval(() => {
+                    this.score += 1;
+                    console.log(`Score: ${this.score}`);
+                }, 1000);  // Set the interval to 1000ms (1 second)
+            }
+        }
+
+        /*collect(collectible){
         this.score += collectible.value; 
         console.log(`Score: ${this.score}`);
         this.emitCollectParticles(collectible);
-        }
+        }*/
 
         emitCollectParticles(){
             const particleSystem = new ParticleSystem(this.x, this.y, 'yellow', 20, 1, 0.5);

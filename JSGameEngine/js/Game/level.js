@@ -18,7 +18,7 @@ class Level extends Game {
   
       const platformWidth = 10000;
   
-      const movingPlatform = new Platform(0, this.canvas.height - 20, platformWidth, 20); // Infinitely long platform
+      const movingPlatform = new Platform(0, this.canvas.height - 50, platformWidth, 50); // Infinitely long platform
       this.addGameObject(movingPlatform);
   
       this.addGameObject(new Enemy(-50, this.canvas.height - 90)); // Spawn enemy to the left of player starting area
