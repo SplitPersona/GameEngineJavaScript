@@ -9,6 +9,8 @@ import Enemy from "../Game/enemy.js"
 import ParticleSystem from "../GameEngine/particleSystem.js";
 import AudioManager from '../GameEngine/audioManager.js';
 import animatorCompiler from '../GameEngine/animatorCompiler.js';
+import Obstacle from '../Game/obstacle.js';
+import ObstacleSpawner from "../GameEngine/obstacleSpawner.js";
 
 class Player extends GameObject{
     constructor(x,y){
@@ -21,7 +23,7 @@ class Player extends GameObject{
         this.addComponent(new animatorCompiler());
         this.getComponent(animatorCompiler).addAnimation([Images.player]);
         this.getComponent(animatorCompiler).addAnimation([Images.player3, Images.player2]);  
-        this.isJumpKeyDown = false; // Add this line
+        this.isJumpKeyDown = false;
         this.audioManager = new AudioManager();
         this.direction = 1;
         this.lives = 3;
@@ -106,6 +108,10 @@ class Player extends GameObject{
         } else {
             anim.currentAnimation = 1;
             anim.speed = 1;
+        }
+
+        if (this.game.obstacleSpawner) {
+            this.game.obstacleSpawner.update(deltaTime);
         }
 
         super.update(deltaTime);
@@ -200,5 +206,5 @@ class Player extends GameObject{
             this.score =0;
             this.resetPlayerState();
         }
-        }
+    }
         export default Player;

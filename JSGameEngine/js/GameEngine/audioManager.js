@@ -19,7 +19,7 @@ class AudioManager {
         }
 
         playBackgroundSong() {
-            this.backgroundSong.volume = 0.5; // Adjust the volume here (0.0 to 1.0)
+            this.backgroundSong.volume = 0.1; // Adjust the volume here (0.0 to 1.0)
             this.backgroundSong.play();
         }
     }
