@@ -20,13 +20,15 @@ class Player extends GameObject{
         this.addComponent(new Input());
         
         this.addComponent(new animatorCompiler());
-        this.getComponent(animatorCompiler).addAnimation([Images.player]);
-        this.getComponent(animatorCompiler).addAnimation([Images.player3, Images.player2]);  
+        this.getComponent(animatorCompiler).addAnimation([Images.idle1, Images.idle2, Images.idle3, Images.idle4, Images.idle5]);
+        this.getComponent(animatorCompiler).addAnimation([Images.run15, Images.run14, Images.run13, Images.run12, Images.run11, Images.run10, Images.run9, Images.run8,Images.run7, Images.run6, Images.run5, Images.run4, Images.run3, Images.run2, Images.run1]); 
+        this.getComponent(animatorCompiler).addAnimation([Images.jump]);
         this.isJumpKeyDown = false;
         this.audioManager = new AudioManager();
         this.direction = 1;
         this.lives = 1;
         this.score = 0;
+        this.hscore = 0;
         this.isOnPlatform = false;
         this.isJumping = false;
         this.jumpForce = 250;
@@ -97,27 +99,39 @@ class Player extends GameObject{
         }
         if(this.lives<=0){
             location.reload();
+            //this.resetGame();
         }
-        /*if(this.score >= 3){
-            console.log("You Win!!");
-            location.reload();
-        }*/
 
         if(this.score === 0){
             this.increaseScore();
         }
 
         let anim = this.getComponent(animatorCompiler);
-        if(physics.velocity.x == 0)
+        // Check if the entity is moving upwards (jumping)
+        if (physics.velocity.y > 0) 
         {
+            // Set animation to the jump animation
+            anim.currentAnimation = 2;
+
+            // Set animation speed for the jump animation
+            anim.animationspeed = 1;
+        }
+        // Check if the entity is not moving horizontally (standing still)
+        else if (physics.velocity.x == 0) 
+        {
+            // Set animation to the idle animation
             anim.currentAnimation = 0;
-        } else {
+            anim.animationspeed = 3;
+        }
+        // If the entity is moving horizontally
+        else 
+        {
+            // Set animation to the walk/run animation
             anim.currentAnimation = 1;
-            anim.speed = 1;
+            anim.animationspeed = 50;
         }
 
         const obstacles = this.game.gameObjects.filter((obj) => obj instanceof Obstacle);
-
         for (const obstacle of obstacles) {
             if (physics.isColliding(obstacle.getComponent(Physics))) {
                 this.collidedWithObstacle();
@@ -143,17 +157,18 @@ class Player extends GameObject{
 
             const horizontalAxis = gamepad.axes[0];
             if (horizontalAxis > 0.1){
-                this.isGamepadMovement = true; 
-                physics.velocity.x += (100 + 100) * input.deltaTime; // Increase velocity based on time
+                this.speedIncreaseTimer += deltaTime; // Increase the timer
+                physics.velocity.x = 155 + this.speedIncreaseRate * this.speedIncreaseTimer; // Increase velocity based on time
                 this.direction = -1;
             }
             else if(horizontalAxis < -0.1){
-                this.isGamepadMovement = true; 
-                physics.velocity.x -= (100 - 10) * input.deltaTime; // Increase velocity based on time
-                this.direction = 1; 
+                this.speedIncreaseTimer += deltaTime; // Increase the timer
+                physics.velocity.x = -155 - this.speedIncreaseRate * this.speedIncreaseTimer; // Increase velocity based on time
+                this.direction = 1;  
             }
             else{
                 physics.velocity.x = 0;
+                this.speedIncreaseTimer = 0; // Reset the timer when the button is released
             }
             if(input.isGamepadButtonDown(0) && this.isOnPlatform){
                 this.isGamepadJump = true; 
@@ -180,7 +195,6 @@ class Player extends GameObject{
 
         collidedWithObstacle() {
             this.canRunRight = false;
-            //physics.velocity.x = 0;
             this.speedIncreaseTimer = 0; // Reset the timer when the button is released
         }
 
@@ -201,6 +215,10 @@ class Player extends GameObject{
                 this.scoreInterval = setInterval(() => {
                     this.score += 1;
                     console.log(`Score: ${this.score}`);
+                    if(this.score >= this.hscore){
+                        this.hscore = this.score; 
+                        console.log(`High Score: ${this.hscore}`);
+                    }
                 }, 1000);  // Set the interval to 1000ms (1 second)
             }
         }
@@ -226,8 +244,8 @@ class Player extends GameObject{
             this.jumpTimer = 0;
         }
         resetGame(){
-            this.lives = 1; 
-            this.score =0;
+            this.lives = 1;
+            this.score = 0;
             this.resetPlayerState();
         }
     }

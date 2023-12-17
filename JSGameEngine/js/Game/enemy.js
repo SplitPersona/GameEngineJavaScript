@@ -31,13 +31,18 @@ class Enemy extends GameObject {
 
       if (this.movingRight) {
         if (this.movementDistance < this.movementLimit) {
-          this.speedIncreaseTimer += deltaTime; // Increase the timer
-          physics.velocity.x = 150 + this.speedIncreaseRate * this.speedIncreaseTimer; // Increase velocity based on time
+          // Increase the timer for speed adjustment
+          this.speedIncreaseTimer += deltaTime;
+
+          // Adjust the horizontal velocity based on time and speed increase rate
+          physics.velocity.x = 150 + this.speedIncreaseRate * this.speedIncreaseTimer;
+
           this.movementDistance += Math.abs(physics.velocity.x) * deltaTime;
           this.getComponent(Renderer).gameObject.direction = 1;
         } else {
-            this.movingRight = true;
-            this.movementLimit = Infinity;
+          this.movingRight = true;
+          // Set movement limit to infinity to allow continuous movement
+          this.movementLimit = Infinity;
           this.movementDistance = 0;
         }
 
